@@ -1,8 +1,7 @@
 package ru.vadim.spring.dao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
+import javax.persistence.*;
 import org.springframework.stereotype.Repository;
 import ru.vadim.spring.model.User;
 
@@ -22,7 +21,7 @@ public class UserDaoImpl implements UserDao{
   }
 
   @Override
-  public User showUserById(int id) {
+  public User showUserById(Long id) {
     return entityManager.find(User.class, id);
   }
 
@@ -32,7 +31,7 @@ public class UserDaoImpl implements UserDao{
   }
 
   @Override
-  public void updateUser(int id, User updatedUser) {
+  public void updateUser(Long id, User updatedUser) {
     User userToUpdate = showUserById(id);
     userToUpdate.setName(updatedUser.getName());
     userToUpdate.setAge(updatedUser.getAge());
@@ -41,7 +40,7 @@ public class UserDaoImpl implements UserDao{
   }
 
   @Override
-  public void deleteUser(int id) {
+  public void deleteUser(Long id) {
     entityManager.remove(entityManager.find(User.class, id));
   }
 

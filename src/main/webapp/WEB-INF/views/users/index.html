@@ -1,18 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<meta charset="UTF-8">
+<html xmlns="http://www.w3.org/1999/html"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Все люди</title>
+  <title>All Users</title>
 </head>
 <body>
 
+<h2>All Users</h2>
+<br/>
+<table class="table">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Name</th>
+    <th scope="col">Last name</th>
+    <th scope="col">Age</th>
+    <th scope="col">Email</th>
+    <th scope="col">Address</th>
+  </tr>
+  </thead>
+
+  <tbody>
 <div th:each="user : ${users}">
-  <a th:href="@{/users/{id}(id=${user.getId()})}"
-     th:text="${user.getName() + ', ' + user.getAge()}">user</a>
+  <a th:href="@{/users/?id={id}(id=${user.getId()})}"
+     th:text="${user.getId()}">user</a>
+  <a th:href="@{/users/?id={id}(id=${user.getId()})}"
+     th:text="${user.getName()}">user</a>
+  <a th:href="@{/users/?id={id}(id=${user.getId()})}"
+     th:text="${user.getLastName()}">user</a>
+  <a th:href="@{/users/?id={id}(id=${user.getId()})}"
+     th:text="${user.getAge()}">user</a>
+  <a th:href="@{/users/?id={id}(id=${user.getId()})}"
+     th:text="${user.getEmail()}">user</a>
+  <a th:href="@{/users/?id={id}(id=${user.getId()})}"
+     th:text="${user.getAddress()}">user</a>
 </div>
+  </tbody>
+
 <br/>
 <hr/>
+</table>
 
 <a href="/users/new">Create new user</a>
 

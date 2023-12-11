@@ -1,85 +1,77 @@
 package ru.vadim.spring.controller;
 
-//import jakarta.validation.Valid;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 import ru.vadim.spring.model.User;
 import ru.vadim.spring.service.UserService;
 
-
 @Controller
+@RequestMapping("/users")
 public class UserController {
 
-  private UserService userService;
+  private final UserService userService;
 
   @Autowired
   public UserController(UserService userService) {
     this.userService = userService;
   }
 
-
-  @GetMapping("/users")
-  public String allUsers(Model model) {
-    //получим всех людей из дао и передади на отображение в представление
+  @GetMapping()
+  public String index(Model model) {
     model.addAttribute("users", userService.allUsers());
-
     return "users/index";
   }
 
-  @GetMapping("/users/{id}")
-  public String showUserById(@PathVariable("id") int id, Model model) {
-    //получим одного человека по его id из DAO и передадим на отоброжение в представление
+  @GetMapping("/")
+  public String show(@RequestParam("id") Long id, Model model) {
     model.addAttribute("user", userService.showUserById(id));
-
     return "users/show";
   }
 
-  //сама создаст объект и положит в модель
-  @GetMapping("/users/new")
-  public String newUser(@ModelAttribute("user") User user) {
+  @GetMapping("/new")
+  public String newUser(Model model) {
+    model.addAttribute("user", new User());
     return "users/new";
   }
 
-  @PostMapping("/users")   ///@Valid , BindingResult bindingResult
-  public String createUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+  @PostMapping
+  public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
 
     if (bindingResult.hasErrors()) {
       return "users/new";
     }
-    userService.saveUser(user);
 
+    userService.saveUser(user);
     return "redirect:/users";
   }
 
-  @GetMapping("/users/{id}/edit")
-  public String editUser(Model model, @PathVariable("id") int id) {
+  @GetMapping("/edit/")
+  public String edit(Model model, @RequestParam("id") Long id) {
     model.addAttribute("user", userService.showUserById(id));
     return "users/edit";
   }
 
-  @PatchMapping("/{id}") ///@Valid, BindingResult bindingResult
-  public String updateUser(@ModelAttribute("user") @Valid User user,BindingResult bindingResult, @PathVariable("id") int id) {
+  @PatchMapping("/")
+  public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+      @RequestParam("id") Long id) {
 
-    if (bindingResult.hasErrors()){
+    if (bindingResult.hasErrors()) {
       return "users/edit";
     }
+
     userService.updateUser(id, user);
     return "redirect:/users";
   }
 
-  @DeleteMapping("/users/{id}")
-  public String delete(@PathVariable("id") int id) {
+  @DeleteMapping("/")
+  public String delete(@RequestParam("id") Long id) {
     userService.deleteUser(id);
     return "redirect:/users";
   }
+
 }

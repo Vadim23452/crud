@@ -1,17 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<meta charset="UTF-8">
+<html xmlns="http://www.w3.org/1999/html"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>User</title>
+  <title>Show</title>
 </head>
 <body>
-<p th:text="${user.getName()}">VALUE</p>
-<p th:text="${user.getId()}">VALUE</p>
+<p th:text="${'ID ->' + user.getId()}">VALUE</p>
+<p th:text="${'Name ->' + user.getName()}">VALUE</p>
+<p th:text="${'Last name ->' + user.getLastName()}">VALUE</p>
+<p th:text="${'Age ->' + user.getAge()}">VALUE</p>
+<p th:text="${'Email ->' + user.getEmail()}">VALUE</p>
+<p th:text="${'Address ->' + user.getAddress()}">VALUE</p>
 
-<a th:href="@{/users/{id}/edit(id=${user.getId()})}">Edit</a>
+<a th:href="@{/users/edit/?id={id}(id=${user.getId()})}">Edit</a>
 
-<form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+<form th:action="@{/users/?id={id}(id=${user.getId()})}" th:method="DELETE">
   <input type="submit" value="Delete"/>
 </form>
 </body>

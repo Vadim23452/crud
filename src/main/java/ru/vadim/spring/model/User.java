@@ -1,17 +1,7 @@
 package ru.vadim.spring.model;
 
-import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-
+import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "users")
@@ -20,27 +10,36 @@ public class User {
   @Id
   @Column(name = "id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  private Long id;
 
-  @NotEmpty(message = "Нельзя оставлять поле пустым")
-  @Size(min = 2, max = 15, message = "Имя должно быть не меньше 2 и не больше 15 символов")
+  @NotEmpty(message = "The field must not be empty")
+  @Size(min = 2, max = 15, message = "Must be from 2 to 15 character")
   @Column(name = "name")
   private String name;
 
-  @Min(value = 0, message = "Возраст долже быть больше указанного вами")
+  @NotEmpty(message = "The field must not be empty")
+  @Size(min = 2, max = 15, message = "Must be from 2 to 15 character")
+  @Column(name = "last_name")
+  private String lastName;
+
+  @Min(value = 5, message = "Error in entering age")
   @Column(name = "age")
   private int age;
 
-  @NotEmpty(message = "Нельзя оставлять поле пустым")
-  @Email(message = "Формат email не верный")
+  @NotEmpty(message = "The field must not be empty")
+  @Email(message = "Not Valid email")
   @Column(name = "email")
   private String email;
 
-  public User(int id, String name, int age, String email) {
+  @Column(name = "address")
+  private String address;
+
+  public User(Long id, String name, int age, String email, String address) {
     this.id = id;
     this.name = name;
     this.age = age;
     this.email = email;
+    this.address = address;
   }
 
   public String getEmail() {
@@ -55,12 +54,28 @@ public class User {
 
   }
 
-  public int getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(Long id) {
     this.id = id;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
   }
 
   public int getAge() {
@@ -77,23 +92,5 @@ public class User {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    User user = (User) o;
-    return id == user.id && age == user.age && Objects.equals(name, user.name)
-        && Objects.equals(email, user.email);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, age, email);
   }
 }
