@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.vadim.spring.dao.UserDao;
 import ru.vadim.spring.model.User;
 
-@Transactional
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -21,8 +20,8 @@ public class UserServiceImpl implements UserService {
 
   @Transactional(readOnly = true)
   @Override
-  public List<User> allUsers() {
-    return userDao.allUsers();
+  public List<User> getAllUsers() {
+    return userDao.getAllUsers();
   }
 
   @Transactional(readOnly = true)
@@ -31,16 +30,19 @@ public class UserServiceImpl implements UserService {
     return userDao.showUserById(id);
   }
 
+  @Transactional
   @Override
   public void saveUser(User user) {
     userDao.saveUser(user);
   }
 
+  @Transactional
   @Override
   public void updateUser(Long id, User user) {
     userDao.updateUser(id, user);
   }
 
+  @Transactional
   @Override
   public void deleteUser(Long id) {
     userDao.deleteUser(id);
