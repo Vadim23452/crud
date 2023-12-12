@@ -5,7 +5,7 @@ import ru.vadim.spring.model.User;
 
 public interface UserService {
 
-  List<User> allUsers();
+  List<User> getAllUsers();
 
   User showUserById(Long id);
 
