@@ -22,13 +22,13 @@ public class UserController {
   }
 
   @GetMapping()
-  public String index(Model model) {
-    model.addAttribute("users", userService.allUsers());
+  public String showUsers(Model model) {
+    model.addAttribute("users", userService.getAllUsers());
     return "users/index";
   }
 
   @GetMapping("/")
-  public String show(@RequestParam("id") Long id, Model model) {
+  public String showUser(@RequestParam("id") Long id, Model model) {
     model.addAttribute("user", userService.showUserById(id));
     return "users/show";
   }
@@ -40,7 +40,7 @@ public class UserController {
   }
 
   @PostMapping
-  public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+  public String createUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
 
     if (bindingResult.hasErrors()) {
       return "users/new";
@@ -50,14 +50,14 @@ public class UserController {
     return "redirect:/users";
   }
 
-  @GetMapping("/edit/")
-  public String edit(Model model, @RequestParam("id") Long id) {
+  @GetMapping("/edit")
+  public String editUser(Model model, @RequestParam("id") Long id) {
     model.addAttribute("user", userService.showUserById(id));
     return "users/edit";
   }
 
   @PatchMapping("/")
-  public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+  public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
       @RequestParam("id") Long id) {
 
     if (bindingResult.hasErrors()) {
@@ -69,7 +69,7 @@ public class UserController {
   }
 
   @DeleteMapping("/")
-  public String delete(@RequestParam("id") Long id) {
+  public String deleteUser(@RequestParam("id") Long id) {
     userService.deleteUser(id);
     return "redirect:/users";
   }
